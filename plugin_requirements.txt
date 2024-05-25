@@ -1,1 +1,2 @@
 netbox-secrets==1.10.2
+netbox-topology-views==3.9.1

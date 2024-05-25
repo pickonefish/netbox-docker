@@ -7,3 +7,10 @@ RUN /opt/netbox/venv/bin/pip install  --no-warn-script-location -r /opt/netbox/p
 COPY configuration/configuration.py /etc/netbox/config/configuration.py
 COPY configuration/plugins.py /etc/netbox/config/plugins.py
 RUN SECRET_KEY="dummydummydummydummydummydummydummydummydummydummy" /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py collectstatic --no-input
+
+RUN mkdir -p /opt/netbox/static/netbox_topology_views/img
+
+WORKDIR /opt/netbox
+RUN /opt/netbox/venv/bin/pip install  --no-warn-script-location -r /opt/netbox/plugin_requirements.txt
+RUN python3 manage.py migrate netbox_topology_views
+RUN python3 manage.py collectstatic --no-input
