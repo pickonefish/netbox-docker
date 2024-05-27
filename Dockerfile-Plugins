@@ -1,16 +1,17 @@
 FROM netboxcommunity/netbox:v3.7.8-2.8.0
 
+WORKDIR /opt/netbox/netbox
+
 COPY ./plugin_requirements.txt /opt/netbox/
 RUN /opt/netbox/venv/bin/pip install  --no-warn-script-location -r /opt/netbox/plugin_requirements.txt
 
 # These lines are only required if your plugin has its own static files.
 COPY configuration/configuration.py /etc/netbox/config/configuration.py
 COPY configuration/plugins.py /etc/netbox/config/plugins.py
-RUN SECRET_KEY="dummydummydummydummydummydummydummydummydummydummy" /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py collectstatic --no-input
+ENV SECRET_KEY="dummydummydummydummydummydummydummydummydummydummy"
+RUN /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py collectstatic --no-input
 
 RUN mkdir -p /opt/netbox/static/netbox_topology_views/img
 
-WORKDIR /opt/netbox
-RUN /opt/netbox/venv/bin/pip install  --no-warn-script-location -r /opt/netbox/plugin_requirements.txt
-RUN python3 manage.py migrate netbox_topology_views
-RUN python3 manage.py collectstatic --no-input
+#CMD /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py migrate netbox_topology_views
+#CMD /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py collectstatic --no-input
