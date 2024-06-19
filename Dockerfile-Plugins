@@ -2,6 +2,9 @@ FROM netboxcommunity/netbox:v3.7.8-2.8.0
 
 WORKDIR /opt/netbox/netbox
 
+COPY ./requirements-container.txt /opt/netbox
+RUN /opt/netbox/venv/bin/pip install  --no-warn-script-location -r /opt/netbox/requirements-container.txt
+
 COPY ./plugin_requirements.txt /opt/netbox/
 RUN /opt/netbox/venv/bin/pip install  --no-warn-script-location -r /opt/netbox/plugin_requirements.txt
 
