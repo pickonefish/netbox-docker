@@ -7,13 +7,35 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-Plugins
+    environment:
+      CSRF_TRUSTED_ORIGINS: "https://netbox.poduo.org"
+      CORS_ORIGIN_ALLOW_ALL: "https://netbox.poduo.org"
+      DB_HOST: "192.168.2.140"
+      DB_PORT: 5432
+      DB_NAME: "netbox"
+      DB_USER: "netbox"
+      DB_PASSWORD: "D3bfNsiysY1QPp6r"
+# https://github.com/netbox-community/netbox-docker/wiki/LDAP
   netbox-worker:
     image: netbox:latest-plugins
     build:
       context: .
       dockerfile: Dockerfile-Plugins
+    environment:
+      - DB_HOST=192.168.2.140
+      - DB_PORT=5432
+      - DB_NAME=netbox
+      - DB_PASSWORD=D3bfNsiysY1QPp6r
+      - DB_USER=netbox
+
   netbox-housekeeping:
     image: netbox:latest-plugins
     build:
       context: .
       dockerfile: Dockerfile-Plugins
+    environment:
+      - DB_HOST=192.168.2.140
+      - DB_PORT=5432
+      - DB_NAME=netbox
+      - DB_PASSWORD=D3bfNsiysY1QPp6r
+      - DB_USER=netbox
